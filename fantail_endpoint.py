@@ -41,6 +41,7 @@ def api_endpoint():
     image = Image.open(io.BytesIO(base64_decoded))
     input_image = np.array(image)
 
+    det = request.form.get('det')
     prompt = request.form.get('prompt')
     a_prompt = request.form.get('a_prompt')
     n_prompt = request.form.get('n_prompt')
@@ -56,16 +57,13 @@ def api_endpoint():
 
     # Do something with the arguments
 
-    ips = [input_image, prompt, a_prompt, n_prompt, num_samples, image_resolution, detect_resolution, ddim_steps,
-           guess_mode, strength, scale, seed, eta]
-
     result = None
 
-
-
     if control_method == 'scribble':
-        result = scribble2image.process(input_image, prompt, a_prompt, n_prompt, num_samples, image_resolution,
-                                ddim_steps, guess_mode, strength, scale, seed, eta)
+        # (det, input_image, prompt, a_prompt, n_prompt, num_samples, image_resolution, detect_resolution, ddim_steps,
+        #  guess_mode, strength, scale, seed, eta)
+        result = scribble2image.process(det, input_image, prompt, a_prompt, n_prompt, num_samples, image_resolution,
+                                detect_resolution, ddim_steps, guess_mode, strength, scale, seed, eta)
 
     # elif control_method == 'pose':
     #     result = pose2image.process(input_image, prompt, a_prompt, n_prompt, num_samples, image_resolution,
